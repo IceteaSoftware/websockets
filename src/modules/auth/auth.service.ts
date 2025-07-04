@@ -21,8 +21,15 @@ export class AuthService {
     // Validate signature
     const { walletAddress, signature } = signInDto
     try {
-      const message = `${this.configService.get('auth.eth.signatureMessage')} ${walletAddress}`
-      verifyMessage(message, signature)
+      const message = `websockets`
+      const recovered = verifyMessage(message, signature)
+
+      if (recovered.toLowerCase() !== walletAddress.toLowerCase()) {
+        this.logger.error(
+          `Signature verification failed for wallet: ${walletAddress}`,
+        )
+        throw new Error('Invalid signature')
+      }
 
       const user = await this.userService.firstOrCreate(walletAddress)
 

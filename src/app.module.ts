@@ -10,6 +10,8 @@ import { LoggerModule } from './modules/logger/logger.module'
 import redisConfig from './config/redis.config'
 import { CacheModule } from './modules/cache/cache.module'
 import { UserModule } from './modules/user/user.module'
+import { DatabaseModule } from '@app/database/database.module'
+import { ChatModule } from './modules/chat/chat.module'
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { UserModule } from './modules/user/user.module'
     AuthModule,
     LoggerModule,
     UserModule,
+    DatabaseModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [
