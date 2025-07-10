@@ -1,3 +1,4 @@
+import { Article } from '@app/modules/article/entities/article.entity'
 import { ConnectedUser } from '@app/modules/chat/entities/connected-user.entity'
 import { Message } from '@app/modules/chat/entities/message.entity'
 import { Room } from '@app/modules/chat/entities/room.entity'
@@ -11,6 +12,10 @@ export class User extends BaseUuidEntity {
   @Column({ name: 'wallet_address', unique: true })
   walletAddress: string
 
+  @Expose({ name: 'is_admin' })
+  @Column({ name: 'is_admin' })
+  isAdmin: boolean
+
   @OneToMany(() => ConnectedUser, (connectedUser) => connectedUser.user)
   connectedUsers: ConnectedUser[]
 
@@ -19,4 +24,7 @@ export class User extends BaseUuidEntity {
 
   @OneToMany(() => Message, (message) => message.creator)
   messages: Message[]
+
+  @OneToMany(() => Article, (article) => article.user)
+  articles: Article[]
 }

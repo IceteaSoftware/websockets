@@ -21,7 +21,7 @@ export class UserService {
     let user = await this.findOneBy({ walletAddress })
 
     if (!user) {
-      user = this.userRepository.create({ walletAddress })
+      user = this.userRepository.create({ walletAddress, isAdmin: false })
       await this.userRepository.save(user)
     }
 

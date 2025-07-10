@@ -1,6 +1,7 @@
 import { jwtConstants } from '@app/common/constant/jwt.constant'
 import { JwtPayload } from '@app/common/interfaces/jwt-payload.interface'
 import { IS_PUBLIC_KEY } from '@app/metadata/public.metadata'
+import { User } from '@app/modules/user/entities/user.entity'
 import { UserService } from '@app/modules/user/user.service'
 import {
   CanActivate,
@@ -13,11 +14,11 @@ import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
 
-// declare module 'express' {
-//   interface Request {
-//     user: User
-//   }
-// }
+declare module 'express' {
+  interface Request {
+    user: User
+  }
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
