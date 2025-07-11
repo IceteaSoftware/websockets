@@ -14,6 +14,7 @@ import { PoliciesGuard } from '@app/guards/policies/policies.guard'
 import { CheckPolicies } from '@app/metadata/policy.metadata'
 import { Action, AppAbility } from '../casl/casl-ability.factory'
 import { Article } from './entities/article.entity'
+import { User } from '../user/entities/user.entity'
 
 @Controller('article')
 export class ArticleController {
@@ -42,7 +43,7 @@ export class ArticleController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articleService.remove(+id)
+  remove(@Param('id') id: string, @Req() req: Request) {
+    return this.articleService.remove(id, req.user)
   }
 }

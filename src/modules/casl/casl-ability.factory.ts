@@ -33,7 +33,8 @@ export class CaslAbilityFactory {
     }
 
     can(Action.Update, Article, { authorId: user.id })
-    cannot(Action.Delete, Article, { isPublished: true })
+
+    cannot(Action.Delete, Article, { isPublished: false })
 
     return build({
       detectSubjectType: (item) =>

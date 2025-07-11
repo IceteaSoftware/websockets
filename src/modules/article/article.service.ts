@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Article } from './entities/article.entity'
+import { Action, CaslAbilityFactory } from '../casl/casl-ability.factory'
+import { User } from '../user/entities/user.entity'
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
+    private caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
   async create(userId: string) {
@@ -31,7 +34,13 @@ export class ArticleService {
     })
   }
 
-  remove(id: number) {
+  async remove(id: string, user: User) {
+    const article = await this.articleRepository.findOneByOrFail({ id })
+    const ability = this.caslAbilityFactory.createForUser(user)
+
+    if (!ability.cannot(Action.Delete, article)) {
+      throw new ForbiddenException('You cannot delete this article')
+    }
     return `This action removes a #${id} article`
   }
 }
